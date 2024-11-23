@@ -1,0 +1,86 @@
+ROWS = rows count of the grid.
+COLUMNS = columns count of the grid.
+BOMB_COUNT = number of bombs in the field;
+DISPLAY = the visual representing the minefield.
+
+init a 2d boolean array MINEFIELD of size (ROWS)*(COLUMNS) with initial value FALSE 
+for all elements;
+
+
+When the user clicks a mine in the field:
+    store the coordinates of the clicked mine in I and J.
+    if its the first click of the game:
+        MINEFIELD = GENERATE_MINEFIELD(ROWS, COLUMNS, FIRST_TOUCH_I, FIRST_TOUCH_J);
+        update the DISPLAY;
+    else:
+        if MINEFIELD[I][J] = true:
+            GAME_OVER();
+            update the DISPLAY;
+        else:
+            UPDATE_CELL_DISPLAY(I, J);
+            show GET_NEAR_BOMBS_COUNT() on the clicked cell;
+
+
+
+GENERATE_MINEFIELD(
+    ROWS : integer,
+    COLUMNS : integer,
+    FIRST_TOUCH_I : integer,
+    FIRST_TOUCH_J : integer)
+    RETURNS a 2D boolean array MINEFIELD {
+    create a 2d boolean array MINEFIELD of size (ROWS)*(COLUMNS) with initial value FALSE 
+    for all elements;
+
+    MINEFIELD[FIRST_TOUCH_I][FIRST_TOUCH_J] = NULL;
+    if FIRST_TOUCH_J > 0:
+        MINEFIELD[FIRST_TOUCH_I][FIRST_TOUCH_J-1] = NULL;
+    if FIRST_TOUCH_J < COLUMNS:
+        MINEFIELD[FIRST_TOUCH_I][FIRST_TOUCH_J+1] = NULL;
+    if FIRST_TOUCH_I > 0:
+        MINEFIELD[FIRST_TOUCH_I-1][FIRST_TOUCH_J] = NULL;
+        if FIRST_TOUCH_J < COLUMNS:
+            MINEFIELD[FIRST_TOUCH_I-1][FIRST_TOUCH_J+1] = NULL;
+        if FIRST_TOUCH_J > 0:
+            MINEFIELD[FIRST_TOUCH_I-1][FIRST_TOUCH_J-1] = NULL;
+    if FIRST_TOUCH_I < ROWS:
+        MINEFIELD[FIRST_TOUCH_I+1][FIRST_TOUCH_J] = NULL;
+        if FIRST_TOUCH_J < COLUMNS:
+            MINEFIELD[FIRST_TOUCH_I+1][FIRST_TOUCH_J+1] = NULL;
+        if FIRST_TOUCH_J > 0:
+            MINEFIELD[FIRST_TOUCH_I+1][FIRST_TOUCH_J-1] = NULL;
+
+
+    FLAT_MF = flatten MINEFIELD array;
+    
+    init k to BOMB_COUNT;
+    while k < BOMB_COUNT:
+        if FLAT_MF[k] !== NULL:
+            FLAT_MF[k] = true;
+            k--;
+    shuffle FLAT_MF in place but do not touch any of the NULL elements;
+    MINEFIELD = reshape(FLAT_MF, ROWS, COLUMNS);
+    return MINEFIELD;
+}
+
+UPDATE_CELL_DISPLAY(I : integer, J : integer) returns the number of near bombs of the cell {
+    CELL = find the specific cell;
+    NEAR_BOMBS = 0;
+    if J > 0:
+        if MINEFIELD[I][J-1] NEAR_BOMBS++;
+    if J < COLUMNS:
+        if MINEFIELD[I][J+1] NEAR_BOMBS++;
+    if I > 0:
+        if MINEFIELD[I-1][J] NEAR_BOMBS++;
+        if J < COLUMNS:
+           if MINEFIELD[I-1][J+1] NEAR_BOMBS++;
+        if J > 0:
+           if MINEFIELD[I-1][J-1] NEAR_BOMBS++;
+    if I < ROWS:
+        if MINEFIELD[I+1][J] NEAR_BOMBS++;
+        if J < COLUMNS:
+            if MINEFIELD[I+1][J+1] NEAR_BOMBS++;
+        if J > 0:
+            if MINEFIELD[I+1][J-1] NEAR_BOMBS++;
+
+    return NEAR_BOMBS;
+};
