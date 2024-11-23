@@ -42,26 +42,28 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
     for (let i = 0; i < rows; i++) {
         const tempArray = [];
         for (let j = 0; j < columns; j++) {
-            tempArray.push(false);
+            const mine = new Cell(false, false, false);
+            tempArray.push(mine);
         }
         minefield.push(tempArray.slice());
         tempArray.length = [];
     }
 
-    minefield[firstTouchI][firstTouchJ] = null;
+
+    minefield[firstTouchI][firstTouchJ].isRevealed = true;
     const neighbors = getCellNeighbors(firstTouchI, firstTouchJ, rows, columns);
-    neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j] = null);
+    neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j].isRevealed = true);
     const flatMineField = minefield.flat();
 
     let k = 0;
     for (let i = 0; k < bombCount; i++) {
-        if (flatMineField[i] !== null) {
-            flatMineField[i] = true;
+        if (flatMineField[i].isRevealed === false) {
+            flatMineField[i].isBomb = true;
             k++;
         }
     }
 
-    shuffleInPlace(flatMineField, (item) => item === null);
+    shuffleInPlace(flatMineField, (item) => item.isRevealed === true);
     minefield = reshape(flatMineField, rows, columns);
     return minefield;
 
@@ -97,4 +99,10 @@ function getCellNeighbors(i, j, rows, columns) {
     return neighbors;
 }
 
-console.table(generateMinefield(10, 10, 0, 9, 20));
+function Cell(isBomb, isFlagged, isRevealed) {
+    this.isBomb = isBomb;
+    this.isFlagged = isFlagged;
+    this.isRevealed = isRevealed;
+}
+
+console.table(generateMinefield(10, 10, 0, 9, 27).map(((row) => row.map((mine) => mine.isRevealed))));
