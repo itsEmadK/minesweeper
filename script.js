@@ -49,31 +49,8 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
     }
 
     minefield[firstTouchI][firstTouchJ] = null;
-    if (firstTouchJ > 0) {
-        minefield[firstTouchI][firstTouchJ - 1] = null;
-    }
-    if (firstTouchJ < columns - 1) {
-        minefield[firstTouchI][firstTouchJ + 1] = null;
-    }
-    if (firstTouchI > 0) {
-        minefield[firstTouchI - 1][firstTouchJ] = null;
-        if (firstTouchJ > 0) {
-            minefield[firstTouchI - 1][firstTouchJ - 1] = null;
-        }
-        if (firstTouchJ < columns - 1) {
-            minefield[firstTouchI - 1][firstTouchJ + 1] = null;
-        }
-    }
-    if (firstTouchI < columns - 1) {
-        minefield[firstTouchI + 1][firstTouchJ] = null;
-        if (firstTouchJ > 0) {
-            minefield[firstTouchI + 1][firstTouchJ - 1] = null;
-        }
-        if (firstTouchJ < columns - 1) {
-            minefield[firstTouchI + 1][firstTouchJ + 1] = null;
-        }
-    }
-
+    const neighbors = getCellNeighbors(firstTouchI, firstTouchJ, rows, columns);
+    neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j] = null);
     const flatMineField = minefield.flat();
 
     let k = 0;
@@ -90,5 +67,34 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
 
 }
 
+function getCellNeighbors(i, j, rows, columns) {
+    const neighbors = [];
+    if (j > 0) {
+        neighbors.push({ i: i, j: j - 1 });
+    }
+    if (j < columns - 1) {
+        neighbors.push({ i: i, j: j + 1 });
+    }
+    if (i > 0) {
+        neighbors.push({ i: i - 1, j: j });
+        if (j > 0) {
+            neighbors.push({ i: i - 1, j: j - 1 });
+        }
+        if (j < columns - 1) {
+            neighbors.push({ i: i - 1, j: j + 1 });
+        }
+    }
+    if (i < rows - 1) {
+        neighbors.push({ i: i + 1, j: j });
+        if (j > 0) {
+            neighbors.push({ i: i + 1, j: j - 1 });
+        }
+        if (j < columns - 1) {
+            neighbors.push({ i: i + 1, j: j + 1 });
+        }
+    }
 
-console.table(generateMinefield(5, 10, 3, 2, 20));
+    return neighbors;
+}
+
+console.table(generateMinefield(10, 10, 0, 9, 20));
