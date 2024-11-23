@@ -51,7 +51,7 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
 
 
     minefield[firstTouchI][firstTouchJ].isRevealed = true;
-    const neighbors = getCellNeighbors(firstTouchI, firstTouchJ, rows, columns);
+    const neighbors = getAdjacentCoordinates(firstTouchI, firstTouchJ, rows, columns);
     neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j].isRevealed = true);
     const flatMineField = minefield.flat();
 
@@ -69,7 +69,7 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
 
 }
 
-function getCellNeighbors(i, j, rows, columns) {
+function getAdjacentCoordinates(i, j, rows, columns) {
     const neighbors = [];
     if (j > 0) {
         neighbors.push({ i: i, j: j - 1 });
