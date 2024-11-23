@@ -20,3 +20,29 @@ function shuffle(arr) {
     }
     return arr;
 }
+
+function reshape(arr, rows, columns) {
+
+    const new2DArray = [];
+
+    if (arr.length !== rows * columns) {
+        return -1;
+    }
+
+    let k = 0;
+    const tempArray = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (k < columns) {
+            tempArray.push(arr[i]);
+            k++;
+        } else {
+            new2DArray.push(tempArray.slice());
+            tempArray.length = 0;
+            tempArray.push(arr[i]);
+            k = 1;
+        }
+    }
+    new2DArray.push(tempArray);
+    return new2DArray;
+}
+
