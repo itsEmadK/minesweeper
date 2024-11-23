@@ -54,9 +54,9 @@ function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
     const flatMineField = minefield.flat();
 
     let k = 0;
-    while (k < bombCount) {
-        if (flatMineField[k] !== null) {
-            flatMineField[k] = true;
+    for (let i = 0; k < bombCount; i++) {
+        if (flatMineField[i] !== null) {
+            flatMineField[i] = true;
             k++;
         }
     }
