@@ -22,6 +22,14 @@
     background-color: slategrey;
 }
 
+.button.difficulty {
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: slategray;
+    border: white 2px solid;
+    color: white;
+}
+
 
 .cell-container {
     display: flex;
