@@ -1,3 +1,12 @@
+const minefield = generateMinefield(10, 10, 0, 9, 27);
+console.table(minefield.map(((row) => row.map((mine) => mine.isBomb))));
+
+
+
+
+
+
+
 function shuffleInPlace(arr, skipPredicate) {
     const n = arr.length;
     for (let i = n - 1; i >= 1; i--) {
@@ -111,7 +120,4 @@ function Cell(isBomb, isFlagged, isRevealed) {
     this.isFlagged = isFlagged;
     this.isRevealed = isRevealed;
 }
-
-const minefield = generateMinefield(10, 10, 0, 9, 27);
-console.table(minefield.map(((row) => row.map((mine) => mine.isBomb))));
 
