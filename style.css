@@ -4,6 +4,9 @@
     padding: 0px;
 }
 
+body {
+    background-color: rgb(72, 84, 96);
+}
 
 .main-container {
     display: flex;
