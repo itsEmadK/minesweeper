@@ -99,10 +99,19 @@ function getAdjacentCoordinates(i, j, rows, columns) {
     return neighbors;
 }
 
+function calculateCellNearBombsCount(i, j, minefield) {
+    const [rows, columns] = [minefield.length, minefield[0].length];
+    return getAdjacentCoordinates(i, j, rows, columns).reduce(
+        (count, coord) => minefield[coord.i][coord.j].isBomb ? count + 1 : count,
+        0);
+}
+
 function Cell(isBomb, isFlagged, isRevealed) {
     this.isBomb = isBomb;
     this.isFlagged = isFlagged;
     this.isRevealed = isRevealed;
 }
 
-console.table(generateMinefield(10, 10, 0, 9, 27).map(((row) => row.map((mine) => mine.isRevealed))));
+const minefield = generateMinefield(10, 10, 0, 9, 27);
+console.table(minefield.map(((row) => row.map((mine) => mine.isBomb))));
+
