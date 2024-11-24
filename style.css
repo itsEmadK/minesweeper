@@ -5,6 +5,15 @@
 }
 
 
+
+.cell-container {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+
+
 .cell {
     background-color: gray;
     border-right: 3px solid rgb(104, 102, 102);
