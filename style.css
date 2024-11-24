@@ -5,6 +5,12 @@
 }
 
 
+.main-container {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
 .cell-container {
     display: flex;
