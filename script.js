@@ -8,6 +8,13 @@ const cssClasses = {
 };
 
 
+function Cell(isBomb, isFlagged, isRevealed) {
+    this.isBomb = isBomb;
+    this.isFlagged = isFlagged;
+    this.isRevealed = isRevealed;
+}
+
+
 const gameController = {
     minefield: [],
     rows: null,
@@ -145,12 +152,6 @@ const gameController = {
     },
 
 
-}
-
-function Cell(isBomb, isFlagged, isRevealed) {
-    this.isBomb = isBomb;
-    this.isFlagged = isFlagged;
-    this.isRevealed = isRevealed;
 }
 
 gameController.generateMinefield(6, 8, 2, 3, 12);
