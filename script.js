@@ -1,3 +1,13 @@
+const cssSelectors = {
+    MINEFIELD_GRID_SELECTOR: ".minefield-grid",
+};
+
+const cssClasses = {
+    CELL_CONTAINER_CLASS: "cell-container",
+    CELL_CLASS: "cell",
+};
+
+
 const gameController = {
     minefield: [],
     rows: null,
@@ -105,11 +115,12 @@ const gameController = {
         this.minefield = minefield;
 
     },
-    calculateCellNearBombsCount(i, j) {
+    getNearBombsCount(i, j) {
         return getAdjacentCoordinates(i, j).reduce(
             (count, coord) => this.minefield[coord.i][coord.j].isBomb ? count + 1 : count,
             0);
     },
+
 
 }
 
