@@ -120,7 +120,9 @@ const gameController = {
             (count, coord) => this.minefield[coord.i][coord.j].isBomb ? count + 1 : count,
             0);
     },
-
+    toggleCellFlagState(i, j) {
+        this.minefield[i][j].isFlagged = !this.minefield[i][j].isFlagged;
+    },
 
 }
 
@@ -132,4 +134,5 @@ function Cell(isBomb, isFlagged, isRevealed) {
 
 gameController.generateMinefield(6, 8, 2, 3, 12);
 console.table(gameController.minefield.map(((row) => row.map((cell) => cell.isBomb))));
+
 
