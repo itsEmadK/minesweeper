@@ -1,118 +1,116 @@
-const minefield = generateMinefield(10, 10, 0, 9, 27);
-console.table(minefield.map(((row) => row.map((mine) => mine.isBomb))));
+const gameController = {
+    minefield: [],
+    rows: null,
+    columns: null,
+    bombCount: null,
+    utility: {
+        shuffleInPlace(arr, skipPredicate) {
+            const n = arr.length;
+            for (let i = n - 1; i >= 1; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                if (!(skipPredicate(arr[j]) || skipPredicate(arr[i]))) {
+                    const temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            return arr;
+        },
+        reshape(arr, rows, columns) {
 
+            const new2DArray = [];
 
+            if (arr.length !== rows * columns) {
+                return -1;
+            }
 
+            let k = 0;
+            const tempArray = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (k < columns) {
+                    tempArray.push(arr[i]);
+                    k++;
+                } else {
+                    new2DArray.push(tempArray.slice());
+                    tempArray.length = 0;
+                    tempArray.push(arr[i]);
+                    k = 1;
+                }
+            }
+            new2DArray.push(tempArray);
+            return new2DArray;
+        },
+        getAdjacentCoordinates(i, j) {
+            const neighbors = [];
+            if (j > 0) {
+                neighbors.push({ i: i, j: j - 1 });
+            }
+            if (j < this.columns - 1) {
+                neighbors.push({ i: i, j: j + 1 });
+            }
+            if (i > 0) {
+                neighbors.push({ i: i - 1, j: j });
+                if (j > 0) {
+                    neighbors.push({ i: i - 1, j: j - 1 });
+                }
+                if (j < this.columns - 1) {
+                    neighbors.push({ i: i - 1, j: j + 1 });
+                }
+            }
+            if (i < this.rows - 1) {
+                neighbors.push({ i: i + 1, j: j });
+                if (j > 0) {
+                    neighbors.push({ i: i + 1, j: j - 1 });
+                }
+                if (j < this.columns - 1) {
+                    neighbors.push({ i: i + 1, j: j + 1 });
+                }
+            }
 
-
-
-
-function shuffleInPlace(arr, skipPredicate) {
-    const n = arr.length;
-    for (let i = n - 1; i >= 1; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        if (!(skipPredicate(arr[j]) || skipPredicate(arr[i]))) {
-            const temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+            return neighbors;
+        },
+    },
+    generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
+        let minefield = [];
+        this.rows = rows;
+        this.columns = columns;
+        this.bombCount = bombCount;
+        for (let i = 0; i < rows; i++) {
+            const tempArray = [];
+            for (let j = 0; j < columns; j++) {
+                const mine = new Cell(false, false, false);
+                tempArray.push(mine);
+            }
+            minefield.push(tempArray.slice());
+            tempArray.length = [];
         }
-    }
-    return arr;
-}
 
 
-function reshape(arr, rows, columns) {
+        minefield[firstTouchI][firstTouchJ].isRevealed = true;
+        const neighbors = this.utility.getAdjacentCoordinates(firstTouchI, firstTouchJ, rows, columns);
+        neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j].isRevealed = true);
+        const flatMineField = minefield.flat();
 
-    const new2DArray = [];
-
-    if (arr.length !== rows * columns) {
-        return -1;
-    }
-
-    let k = 0;
-    const tempArray = [];
-    for (let i = 0; i < arr.length; i++) {
-        if (k < columns) {
-            tempArray.push(arr[i]);
-            k++;
-        } else {
-            new2DArray.push(tempArray.slice());
-            tempArray.length = 0;
-            tempArray.push(arr[i]);
-            k = 1;
+        let k = 0;
+        for (let i = 0; k < bombCount; i++) {
+            if (flatMineField[i].isRevealed === false) {
+                flatMineField[i].isBomb = true;
+                k++;
+            }
         }
-    }
-    new2DArray.push(tempArray);
-    return new2DArray;
-}
 
-function generateMinefield(rows, columns, firstTouchI, firstTouchJ, bombCount) {
-    let minefield = [];
-    for (let i = 0; i < rows; i++) {
-        const tempArray = [];
-        for (let j = 0; j < columns; j++) {
-            const mine = new Cell(false, false, false);
-            tempArray.push(mine);
-        }
-        minefield.push(tempArray.slice());
-        tempArray.length = [];
-    }
+        this.utility.shuffleInPlace(flatMineField, (item) => item.isRevealed === true);
+        minefield = this.utility.reshape(flatMineField, rows, columns);
 
+        this.minefield = minefield;
 
-    minefield[firstTouchI][firstTouchJ].isRevealed = true;
-    const neighbors = getAdjacentCoordinates(firstTouchI, firstTouchJ, rows, columns);
-    neighbors.forEach((neighbor) => minefield[neighbor.i][neighbor.j].isRevealed = true);
-    const flatMineField = minefield.flat();
+    },
+    calculateCellNearBombsCount(i, j) {
+        return getAdjacentCoordinates(i, j).reduce(
+            (count, coord) => this.minefield[coord.i][coord.j].isBomb ? count + 1 : count,
+            0);
+    },
 
-    let k = 0;
-    for (let i = 0; k < bombCount; i++) {
-        if (flatMineField[i].isRevealed === false) {
-            flatMineField[i].isBomb = true;
-            k++;
-        }
-    }
-
-    shuffleInPlace(flatMineField, (item) => item.isRevealed === true);
-    minefield = reshape(flatMineField, rows, columns);
-    return minefield;
-
-}
-
-function getAdjacentCoordinates(i, j, rows, columns) {
-    const neighbors = [];
-    if (j > 0) {
-        neighbors.push({ i: i, j: j - 1 });
-    }
-    if (j < columns - 1) {
-        neighbors.push({ i: i, j: j + 1 });
-    }
-    if (i > 0) {
-        neighbors.push({ i: i - 1, j: j });
-        if (j > 0) {
-            neighbors.push({ i: i - 1, j: j - 1 });
-        }
-        if (j < columns - 1) {
-            neighbors.push({ i: i - 1, j: j + 1 });
-        }
-    }
-    if (i < rows - 1) {
-        neighbors.push({ i: i + 1, j: j });
-        if (j > 0) {
-            neighbors.push({ i: i + 1, j: j - 1 });
-        }
-        if (j < columns - 1) {
-            neighbors.push({ i: i + 1, j: j + 1 });
-        }
-    }
-
-    return neighbors;
-}
-
-function calculateCellNearBombsCount(i, j, minefield) {
-    const [rows, columns] = [minefield.length, minefield[0].length];
-    return getAdjacentCoordinates(i, j, rows, columns).reduce(
-        (count, coord) => minefield[coord.i][coord.j].isBomb ? count + 1 : count,
-        0);
 }
 
 function Cell(isBomb, isFlagged, isRevealed) {
@@ -120,4 +118,7 @@ function Cell(isBomb, isFlagged, isRevealed) {
     this.isFlagged = isFlagged;
     this.isRevealed = isRevealed;
 }
+
+gameController.generateMinefield(6, 8, 2, 3, 12);
+console.table(gameController.minefield.map(((row) => row.map((cell) => cell.isBomb))));
 
