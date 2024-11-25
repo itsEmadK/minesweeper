@@ -123,7 +123,15 @@ const gameController = {
             0);
     },
     toggleCellFlagState(i, j) {
-        this.minefield[i][j].isFlagged = !this.minefield[i][j].isFlagged;
+        const cell = this.minefield[i][j];
+        cell.isFlagged = !cell.isFlagged;
+        if (cell.isFlagged && cell.isBomb) {
+            //Flagged a bomb cell.
+            this.bombCount--;
+        } else if (!cell.isFlagged && cell.isBomb) {
+            //UnFlagged a bomb cell
+            this.bombCount++;
+        }
     },
     revealCell(i, j) {
         const cell = this.minefield[i][j];
