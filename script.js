@@ -13,6 +13,8 @@ const gameController = {
     rows: null,
     columns: null,
     bombCount: null,
+    hasUserWon: false,
+    hasUserLost: false,
     utility: {
         shuffleInPlace(arr, skipPredicate) {
             const n = arr.length;
@@ -123,6 +125,17 @@ const gameController = {
     toggleCellFlagState(i, j) {
         this.minefield[i][j].isFlagged = !this.minefield[i][j].isFlagged;
     },
+    revealCell(i, j) {
+        const cell = this.minefield[i][j];
+        if (!cell.isFlagged && !cell.isRevealed) {
+            if (cell.isBomb) {
+                this.hasUserLost = true;
+            } else {
+                cell.isRevealed = true;
+            }
+        }
+    },
+
 
 }
 
