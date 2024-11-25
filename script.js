@@ -158,3 +158,10 @@ gameController.generateMinefield(6, 8, 2, 3, 12);
 console.table(gameController.minefield.map(((row) => row.map((cell) => cell.isBomb))));
 
 
+const minefieldGridDiv = document.querySelector(cssSelectors.MINEFIELD_GRID_SELECTOR);
+const rowOfCellsDiv = document.createElement("div");
+rowOfCellsDiv.classList.add(cssClasses.CELL_CONTAINER_CLASS);
+const cellDiv = document.createElement("div");
+cellDiv.classList.add(cssClasses.CELL_CLASS);
+
+
