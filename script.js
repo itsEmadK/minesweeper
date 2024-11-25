@@ -165,3 +165,17 @@ const cellDiv = document.createElement("div");
 cellDiv.classList.add(cssClasses.CELL_CLASS);
 
 
+let [rows, columns] = [16, 25];//TODO: Take input from user.
+createCellDivs(rows, columns);
+
+function createCellDivs(rows, columns) {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            cellDiv.id = `${i}:${j}`;
+            rowOfCellsDiv.appendChild(cellDiv.cloneNode());
+        }
+        minefieldGridDiv.appendChild(rowOfCellsDiv.cloneNode(true));
+        rowOfCellsDiv.innerHTML = "";
+
+    }
+}
