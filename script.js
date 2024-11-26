@@ -192,3 +192,7 @@ function calculateNearBombCount(point) {
     }, 0);
     return bombCount;
 }
+
+function logMinefield(property) {
+    console.table(minefield.map(row => row.map(cell => cell[property])));
+}
