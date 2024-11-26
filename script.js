@@ -91,6 +91,24 @@ function revealStartingPointNeighbors() {
     }
 }
 
+function getCellNeighbors(i, j) {
+    const neighbors = [];
+    if (j > 0) neighbors.push(new Point(i, j - 1));
+    if (j < minefieldColumns - 1) neighbors.push(new Point(i, j + 1));
+    if (i > 0) {
+        neighbors.push(new Point(i - 1, j));
+        if (j > 0) neighbors.push(new Point(i - 1, j - 1));
+        if (j < minefieldColumns - 1) neighbors.push(new Point(i - 1, j + 1));
+    }
+    if (i < minefieldRows - 1) {
+        neighbors.push(new Point(i + 1, j));
+        if (j > 0) neighbors.push(new Point(i + 1, j - 1));
+        if (j < minefieldColumns - 1) neighbors.push(new Point(i + 1, j + 1));
+    }
+
+    return neighbors;
+}
+
 function populateMinefieldWithBombs() {
 
     const flatMinefield = minefield.flat();
