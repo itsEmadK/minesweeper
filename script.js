@@ -28,7 +28,20 @@ for (let i = flatMinefield.length - 1; i > 0; i--) {
     }
 }
 
-
+//Update the minefield with the reshaped value of flatMinefield:
+minefield.length = 0;
+k = 0;
+const tempArr = [];
+for (let i = 0; i < flatMinefield.length; i++) {
+    if (k === minefieldColumns) {
+        minefield.push(tempArr.slice());
+        tempArr.length = 0;
+        k = 0;
+    }
+    tempArr.push(flatMinefield[i]);
+    k++;
+}
+minefield.push(tempArr);
 
 
 
