@@ -157,7 +157,7 @@ function populateMinefieldGridDiv() {
     for (let i = 0; i < minefieldRows; i++) {
 
         for (let j = 0; j < minefieldColumns; j++) {
-            cellDiv.id = `${i}:${j}`;
+            cellDiv.id = `p${i}_${j}`;
             cellRowDiv.appendChild(cellDiv.cloneNode());
         }
 
@@ -168,13 +168,13 @@ function populateMinefieldGridDiv() {
 }
 
 function cellDivElementToCoord(cellDivElement) {
-    const i = +String(cellDivElement.id).split(":")[0];
-    const j = +String(cellDivElement.id).split(":")[1];
+    const i = +String(cellDivElement.id).slice(1).split("_")[0];
+    const j = +String(cellDivElement.id).slice(1).split("_")[1];
     return new Point(i, j);
 }
 
 function coordToCellDivElement(point) {
     const i = point.i;
     const j = point.j;
-    return document.querySelector(`#${i}:${j}`);
+    return document.querySelector(`#p${i}_${j}`);
 }
