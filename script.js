@@ -86,10 +86,8 @@ minefieldDiv.addEventListener("contextmenu", (e) => {
     if ([...flaggedCellDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
         flaggedCellDiv = flaggedCellDiv.parentNode;
     }
-    console.log(flaggedCellDiv);
     if (startingPoint !== null) {
         const coord = cellDivElementToCoord(flaggedCellDiv);
-        console.log(coord);
         if (!minefield[coord.i][coord.j].isFlagged) {
             const imgElement = document.createElement("img");
             imgElement.src = "./images/flag.webp";
