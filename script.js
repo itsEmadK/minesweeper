@@ -13,6 +13,7 @@ const CSS_CLASSES = {
     CELL_ROW: "cell-row",
     CELL: "cell",
     REVEALED: "revealed",
+    FLAG_IMG: "flag-img",
     NEAR_BOMB_COUNT_NUMBERS: {
         0: "zero",
         1: "one",
@@ -59,7 +60,8 @@ minefieldDiv.addEventListener("click", (e) => {
         const shouldHandleClick = !minefield[i][j].isFlagged && !minefield[i][j].isRevealed;
         if (shouldHandleClick) {
             if (minefield[i][j].isBomb) {
-                
+
+
             } else {
                 e.target.classList.add(CSS_CLASSES.REVEALED);
                 minefield[i][j].isRevealed = true;
@@ -70,6 +72,29 @@ minefieldDiv.addEventListener("click", (e) => {
             }
         }
 
+    }
+});
+
+minefieldDiv.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    let flaggedCellDiv = e.target;
+    if ([...flaggedCellDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
+        flaggedCellDiv = flaggedCellDiv.parentNode;
+    }
+    console.log(flaggedCellDiv);
+    if (startingPoint !== null) {
+        const coord = cellDivElementToCoord(flaggedCellDiv);
+        console.log(coord);
+        if (!minefield[coord.i][coord.j].isFlagged) {
+            const imgElement = document.createElement("img");
+            imgElement.src = "./images/flag.webp";
+            imgElement.alt = "flag";
+            imgElement.classList.add(CSS_CLASSES.FLAG_IMG);
+            e.target.appendChild(imgElement);
+        } else {
+            flaggedCellDiv.innerHTML = "";
+        }
+        minefield[coord.i][coord.j].isFlagged = !minefield[coord.i][coord.j].isFlagged;
     }
 });
 
