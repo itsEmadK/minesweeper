@@ -14,6 +14,7 @@ const CSS_CLASSES = {
     CELL: "cell",
     REVEALED: "revealed",
     FLAG_IMG: "flag-img",
+    BOMB_IMG: "bomb-img",
     NEAR_BOMB_COUNT_NUMBERS: {
         0: "zero",
         1: "one",
@@ -66,6 +67,20 @@ minefieldDiv.addEventListener("click", (e) => {
         if (shouldHandleClick) {
             if (minefield[i][j].isBomb) {
 
+                minefield.forEach(((row, i) => {
+                    row.forEach((cell, j) => {
+                        const div = coordToCellDivElement(new Point(i, j));
+                        if (cell.isBomb) {
+                            div.classList.add(CSS_CLASSES.REVEALED);
+                            const bombImg = document.createElement("img");
+                            bombImg.src = "./images/bomb.png";
+                            bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
+                            div.appendChild(bombImg);
+                        }
+                    });
+                }));
+
+                clickedDiv.style.backgroundColor = "red";
 
             } else {
                 clickedDiv.classList.add(CSS_CLASSES.REVEALED);

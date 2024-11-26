@@ -66,7 +66,8 @@
     color: rgb(208, 43, 169);
 }
 
-.flag-img {
+.flag-img,
+.bomb-img {
     max-height: 100%;
     max-width: 100%;
 }
