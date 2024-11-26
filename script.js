@@ -18,6 +18,16 @@ while (k < remainingBombs) {
     ind++;
 }
 
+//Shuffle the flatMinefield (Fisher-Yates method):
+for (let i = flatMinefield.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    if (!flatMinefield[i].isRevealed && !flatMinefield[j].isRevealed) {
+        const temp = flatMinefield[i];
+        flatMinefield[i] = flatMinefield[j];
+        flatMinefield[j] = temp;
+    }
+}
+
 
 
 
