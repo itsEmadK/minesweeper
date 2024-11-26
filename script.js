@@ -27,6 +27,15 @@ cellDiv.classList.add(CSS_CLASSES.CELL);
 //Generate the minefieldDiv cells:
 populateMinefieldGridDiv();
 
+minefieldDiv.addEventListener("click", (e) => {
+    const i = getCellDivElementPosition(e.target).i;
+    const j = getCellDivElementPosition(e.target).j;
+});
+
+
+
+
+
 
 function Cell() {
     this.isBomb = false;
@@ -136,4 +145,10 @@ function populateMinefieldGridDiv() {
         cellRowDiv.innerHTML = "";
 
     }
+}
+
+function getCellDivElementPosition(cellDivElement) {
+    const i = +String(cellDivElement.id).split(":")[0];
+    const j = +String(cellDivElement.id).split(":")[1];
+    return new Point(i, j);
 }
