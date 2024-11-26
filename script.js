@@ -9,6 +9,20 @@ revealStartingPointNeighbors();
 populateMinefieldWithBombs();
 
 
+const CSS_SELECTORS = {
+    MINEFIELD_GRID: ".minefield-grid",
+};
+
+const CSS_CLASSES = {
+    CELL_ROW: "cell-row",
+    CELL: "cell",
+};
+
+const minefieldDiv = document.querySelector(CSS_SELECTORS.MINEFIELD_GRID);
+const cellRowDiv = document.createElement("div");
+cellRowDiv.classList.add(CSS_CLASSES.CELL_ROW);
+const cellDiv = document.createElement("div");
+cellDiv.classList.add(CSS_CLASSES.CELL);
 
 
 
