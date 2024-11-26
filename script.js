@@ -1,11 +1,11 @@
 const minefield = [];
-let [rows, columns] = [8, 12];
+let [minefieldRows, minefieldColumns] = [8, 12];
 initMinefield();
 
 function initMinefield() {
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < minefieldRows; i++) {
         const temp = [];
-        for (let j = 0; j < columns; j++) {
+        for (let j = 0; j < minefieldColumns; j++) {
             temp.push(new Cell());
         }
         minefield.push(temp.slice());
