@@ -12,6 +12,7 @@ const CSS_SELECTORS = {
 const CSS_CLASSES = {
     CELL_ROW: "cell-row",
     CELL: "cell",
+    REVEALED: "revealed",
 };
 
 const minefieldDiv = document.querySelector(CSS_SELECTORS.MINEFIELD_GRID);
@@ -31,6 +32,7 @@ minefieldDiv.addEventListener("click", (e) => {
         minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
         revealStartingPointNeighbors();
         populateMinefieldWithBombs();
+        e.target.classList.add(CSS_CLASSES.REVEALED);
     }
 });
 
