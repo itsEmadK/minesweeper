@@ -91,7 +91,8 @@ function revealStartingPointNeighbors() {
     }
 }
 
-function getCellNeighbors(i, j) {
+function getCellNeighbors(point) {
+    const [i, j] = [point.i, point.j];
     const neighbors = [];
     if (j > 0) neighbors.push(new Point(i, j - 1));
     if (j < minefieldColumns - 1) neighbors.push(new Point(i, j + 1));
@@ -177,4 +178,17 @@ function coordToCellDivElement(point) {
     const i = point.i;
     const j = point.j;
     return document.querySelector(`#p${i}_${j}`);
+}
+
+function calculateNearBombCount(point) {
+    const neighbors = getCellNeighbors(point);
+    const bombCount = neighbors.reduce((count, neighbor) => {
+        const [i, j] = [neighbor.i, neighbor.j];
+        if (minefield[i][j].isBomb) {
+            return count + 1;
+        } else {
+            return count;
+        }
+    }, 0);
+    return bombCount;
 }
