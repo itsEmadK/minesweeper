@@ -24,8 +24,8 @@ cellDiv.classList.add(CSS_CLASSES.CELL);
 populateMinefieldGridDiv();
 
 minefieldDiv.addEventListener("click", (e) => {
-    const i = getCellDivElementPosition(e.target).i;
-    const j = getCellDivElementPosition(e.target).j;
+    const i = cellDivElementToCoord(e.target).i;
+    const j = cellDivElementToCoord(e.target).j;
     if (startingPoint === null) {
         startingPoint = new Point(i, j);
         minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
@@ -167,7 +167,7 @@ function populateMinefieldGridDiv() {
     }
 }
 
-function getCellDivElementPosition(cellDivElement) {
+function cellDivElementToCoord(cellDivElement) {
     const i = +String(cellDivElement.id).split(":")[0];
     const j = +String(cellDivElement.id).split(":")[1];
     return new Point(i, j);
