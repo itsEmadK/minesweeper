@@ -18,3 +18,8 @@ function Cell() {
     this.isFlagged = false;
     this.isRevealed = false;
 }
+
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
