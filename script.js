@@ -1,5 +1,6 @@
 const minefield = [];
 let [minefieldRows, minefieldColumns] = [8, 12];
+let remainingBombs = 18;
 initMinefield();
 
 const startingPoint = new Point(2, 3);
@@ -8,6 +9,20 @@ const j = startingPoint.j;
 const i = startingPoint.i;
 minefield[i][j].isRevealed = true; //Reveal the starting point.
 revealStartingPointNeighbors();
+
+const flatMinefield = minefield.flat();
+let k = 0;
+let ind = 0;
+while (k < remainingBombs) {
+    if (!flatMinefield[ind].isRevealed) { //Starting point and its neighbors should not be bombs!
+        flatMinefield[ind].isBomb = true;
+        k++;
+    }
+    ind++;
+}
+
+
+
 
 
 
