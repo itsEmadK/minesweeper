@@ -2,11 +2,7 @@ const minefield = [];
 let [minefieldRows, minefieldColumns] = [8, 12];
 let remainingBombs = 18;
 initEmptyMinefield();
-
-const startingPoint = new Point(2, 3);
-minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
-revealStartingPointNeighbors();
-populateMinefieldWithBombs();
+let startingPoint = null;
 
 
 const CSS_SELECTORS = {
@@ -30,6 +26,12 @@ populateMinefieldGridDiv();
 minefieldDiv.addEventListener("click", (e) => {
     const i = getCellDivElementPosition(e.target).i;
     const j = getCellDivElementPosition(e.target).j;
+    if (startingPoint === null) {
+        startingPoint = new Point(i, j);
+        minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
+        revealStartingPointNeighbors();
+        populateMinefieldWithBombs();
+    }
 });
 
 
