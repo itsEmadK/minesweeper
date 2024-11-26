@@ -11,16 +11,7 @@ populateMinefieldWithBombs();
 
 
 
-function initMinefield() {
-    for (let i = 0; i < minefieldRows; i++) {
-        const temp = [];
-        for (let j = 0; j < minefieldColumns; j++) {
-            temp.push(new Cell());
-        }
-        minefield.push(temp.slice());
-        temp.length = 0;
-    }
-}
+
 
 function Cell() {
     this.isBomb = false;
@@ -31,6 +22,17 @@ function Cell() {
 function Point(i, j) {
     this.j = j;
     this.i = i;
+}
+
+function initMinefield() {
+    for (let i = 0; i < minefieldRows; i++) {
+        const temp = [];
+        for (let j = 0; j < minefieldColumns; j++) {
+            temp.push(new Cell());
+        }
+        minefield.push(temp.slice());
+        temp.length = 0;
+    }
 }
 
 //Reveals all the adjacent cells of the starting point:
