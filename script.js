@@ -82,12 +82,12 @@ minefieldDiv.addEventListener("click", (e) => {
 
 minefieldDiv.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    let flaggedCellDiv = e.target;
-    if ([...flaggedCellDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
-        flaggedCellDiv = flaggedCellDiv.parentNode;
+    let rightClickedDiv = e.target;
+    if ([...rightClickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
+        rightClickedDiv = rightClickedDiv.parentNode;
     }
     if (startingPoint !== null) {
-        const coord = cellDivElementToCoord(flaggedCellDiv);
+        const coord = cellDivElementToCoord(rightClickedDiv);
         if (!minefield[coord.i][coord.j].isFlagged) {
             const imgElement = document.createElement("img");
             imgElement.src = "./images/flag.webp";
@@ -95,7 +95,7 @@ minefieldDiv.addEventListener("contextmenu", (e) => {
             imgElement.classList.add(CSS_CLASSES.FLAG_IMG);
             e.target.appendChild(imgElement);
         } else {
-            flaggedCellDiv.innerHTML = "";
+            rightClickedDiv.innerHTML = "";
         }
         minefield[coord.i][coord.j].isFlagged = !minefield[coord.i][coord.j].isFlagged;
     }
