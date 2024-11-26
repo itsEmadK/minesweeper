@@ -37,14 +37,19 @@ cellDiv.classList.add(CSS_CLASSES.CELL);
 populateMinefieldGridDiv();
 
 minefieldDiv.addEventListener("click", (e) => {
-    const i = cellDivElementToCoord(e.target).i;
-    const j = cellDivElementToCoord(e.target).j;
+    let clickedDiv = e.target;
+    if ([...clickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
+        clickedDiv = e.target.parentNode;
+    }
+
+    const i = cellDivElementToCoord(clickedDiv).i;
+    const j = cellDivElementToCoord(clickedDiv).j;
     if (startingPoint === null) {
         startingPoint = new Point(i, j);
         minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
         revealStartingPointNeighbors();
         populateMinefieldWithBombs();
-        e.target.classList.add(CSS_CLASSES.REVEALED);
+        clickedDiv.classList.add(CSS_CLASSES.REVEALED);
 
         const startingPointNeighbors = getCellNeighbors(startingPoint);
         startingPointNeighbors.forEach((point => {
@@ -55,20 +60,20 @@ minefieldDiv.addEventListener("click", (e) => {
             neighborDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
         }));
     } else {
-        const i = cellDivElementToCoord(e.target).i;
-        const j = cellDivElementToCoord(e.target).j;
+        const i = cellDivElementToCoord(clickedDiv).i;
+        const j = cellDivElementToCoord(clickedDiv).j;
         const shouldHandleClick = !minefield[i][j].isFlagged && !minefield[i][j].isRevealed;
         if (shouldHandleClick) {
             if (minefield[i][j].isBomb) {
 
 
             } else {
-                e.target.classList.add(CSS_CLASSES.REVEALED);
+                clickedDiv.classList.add(CSS_CLASSES.REVEALED);
                 minefield[i][j].isRevealed = true;
-                const coord = cellDivElementToCoord(e.target);
+                const coord = cellDivElementToCoord(clickedDiv);
                 const nearBombs = calculateNearBombCount(coord);
-                e.target.innerText = nearBombs === 0 ? "" : nearBombs;
-                e.target.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+                clickedDiv.innerText = nearBombs === 0 ? "" : nearBombs;
+                clickedDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
             }
         }
 
