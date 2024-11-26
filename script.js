@@ -2,6 +2,40 @@ const minefield = [];
 let [minefieldRows, minefieldColumns] = [8, 12];
 initMinefield();
 
+const startingPoint = new Point(2, 3);
+
+const x = startingPoint.x;
+const y = startingPoint.y;
+minefield[y][x].isRevealed = true; //Reveal the starting point.
+
+//Reveal all the adjacent cells of the starting point:
+if (x > 0) {
+    minefield[y][x - 1].isRevealed = true;
+}
+if (x < minefieldColumns) {
+    minefield[y][x + 1].isRevealed = true;
+}
+if (y > 0) {
+    minefield[y - 1][x].isRevealed = true;
+    if (x > 0) {
+        minefield[y - 1][x - 1].isRevealed = true;
+    }
+    if (x < minefieldColumns) {
+        minefield[y - 1][x + 1].isRevealed = true;
+    }
+}
+if (y < minefieldRows) {
+    minefield[y + 1][x].isRevealed = true;
+    if (x > 0) {
+        minefield[y + 1][x - 1].isRevealed = true;
+    }
+    if (x < minefieldColumns) {
+        minefield[y + 1][x + 1].isRevealed = true;
+    }
+}
+
+
+
 function initMinefield() {
     for (let i = 0; i < minefieldRows; i++) {
         const temp = [];
