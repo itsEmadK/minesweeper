@@ -172,3 +172,9 @@ function cellDivElementToCoord(cellDivElement) {
     const j = +String(cellDivElement.id).split(":")[1];
     return new Point(i, j);
 }
+
+function coordToCellDivElement(point) {
+    const i = point.i;
+    const j = point.j;
+    return document.querySelector(`#${i}:${j}`);
+}
