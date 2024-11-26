@@ -24,7 +24,8 @@ cellRowDiv.classList.add(CSS_CLASSES.CELL_ROW);
 const cellDiv = document.createElement("div");
 cellDiv.classList.add(CSS_CLASSES.CELL);
 
-
+//Generate the minefieldDiv cells:
+populateMinefieldGridDiv();
 
 
 function Cell() {
@@ -121,4 +122,18 @@ function populateMinefieldWithBombs() {
     minefield.push(tempArr);
 
 
+}
+
+function populateMinefieldGridDiv() {
+    for (let i = 0; i < minefieldRows; i++) {
+
+        for (let j = 0; j < minefieldColumns; j++) {
+            cellDiv.id = `${i}:${j}`;
+            cellRowDiv.appendChild(cellDiv.cloneNode());
+        }
+
+        minefieldDiv.appendChild(cellRowDiv.cloneNode(true));
+        cellRowDiv.innerHTML = "";
+
+    }
 }
