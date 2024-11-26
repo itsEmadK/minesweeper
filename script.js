@@ -68,7 +68,7 @@ function revealStartingPointNeighbors() {
     if (j > 0) {
         minefield[i][j - 1].isRevealed = true;
     }
-    if (j < minefieldColumns) {
+    if (j < minefieldColumns - 1) {
         minefield[i][j + 1].isRevealed = true;
     }
     if (i > 0) {
@@ -76,16 +76,16 @@ function revealStartingPointNeighbors() {
         if (j > 0) {
             minefield[i - 1][j - 1].isRevealed = true;
         }
-        if (j < minefieldColumns) {
+        if (j < minefieldColumns - 1) {
             minefield[i - 1][j + 1].isRevealed = true;
         }
     }
-    if (i < minefieldRows) {
+    if (i < minefieldRows - 1) {
         minefield[i + 1][j].isRevealed = true;
         if (j > 0) {
             minefield[i + 1][j - 1].isRevealed = true;
         }
-        if (j < minefieldColumns) {
+        if (j < minefieldColumns - 1) {
             minefield[i + 1][j + 1].isRevealed = true;
         }
     }
