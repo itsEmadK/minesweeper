@@ -7,32 +7,7 @@ const startingPoint = new Point(2, 3);
 const j = startingPoint.j;
 const i = startingPoint.i;
 minefield[i][j].isRevealed = true; //Reveal the starting point.
-
-//Reveal all the adjacent cells of the starting point:
-if (j > 0) {
-    minefield[i][j - 1].isRevealed = true;
-}
-if (j < minefieldColumns) {
-    minefield[i][j + 1].isRevealed = true;
-}
-if (i > 0) {
-    minefield[i - 1][j].isRevealed = true;
-    if (j > 0) {
-        minefield[i - 1][j - 1].isRevealed = true;
-    }
-    if (j < minefieldColumns) {
-        minefield[i - 1][j + 1].isRevealed = true;
-    }
-}
-if (i < minefieldRows) {
-    minefield[i + 1][j].isRevealed = true;
-    if (j > 0) {
-        minefield[i + 1][j - 1].isRevealed = true;
-    }
-    if (j < minefieldColumns) {
-        minefield[i + 1][j + 1].isRevealed = true;
-    }
-}
+revealStartingPointNeighbors();
 
 
 
@@ -56,4 +31,34 @@ function Cell() {
 function Point(i, j) {
     this.j = j;
     this.i = i;
+}
+
+//Reveals all the adjacent cells of the starting point:
+function revealStartingPointNeighbors() {
+    const i = startingPoint.i;
+    const j = startingPoint.j;
+    if (j > 0) {
+        minefield[i][j - 1].isRevealed = true;
+    }
+    if (j < minefieldColumns) {
+        minefield[i][j + 1].isRevealed = true;
+    }
+    if (i > 0) {
+        minefield[i - 1][j].isRevealed = true;
+        if (j > 0) {
+            minefield[i - 1][j - 1].isRevealed = true;
+        }
+        if (j < minefieldColumns) {
+            minefield[i - 1][j + 1].isRevealed = true;
+        }
+    }
+    if (i < minefieldRows) {
+        minefield[i + 1][j].isRevealed = true;
+        if (j > 0) {
+            minefield[i + 1][j - 1].isRevealed = true;
+        }
+        if (j < minefieldColumns) {
+            minefield[i + 1][j + 1].isRevealed = true;
+        }
+    }
 }
