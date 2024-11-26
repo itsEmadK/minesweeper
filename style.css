@@ -33,3 +33,35 @@
     font-weight: bold;
     font-size: 18px;
 }
+
+.cell.revealed.one {
+    color: blue;
+}
+
+.cell.revealed.two {
+    color: green;
+}
+
+.cell.revealed.three {
+    color: red;
+}
+
+.cell.revealed.four {
+    color: purple;
+}
+
+.cell.revealed.five {
+    color: brown;
+}
+
+.cell.revealed.six {
+    color: rgb(54, 127, 151);
+}
+
+.cell.revealed.seven {
+    color: rgb(99, 112, 185);
+}
+
+.cell.revealed.eight {
+    color: rgb(208, 43, 169);
+}
