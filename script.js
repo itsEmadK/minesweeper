@@ -6,42 +6,7 @@ initMinefield();
 const startingPoint = new Point(2, 3);
 minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
 revealStartingPointNeighbors();
-
-const flatMinefield = minefield.flat();
-let k = 0;
-let ind = 0;
-while (k < remainingBombs) {
-    if (!flatMinefield[ind].isRevealed) { //Starting point and its neighbors should not be bombs!
-        flatMinefield[ind].isBomb = true;
-        k++;
-    }
-    ind++;
-}
-
-//Shuffle the flatMinefield (Fisher-Yates method):
-for (let i = flatMinefield.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    if (!flatMinefield[i].isRevealed && !flatMinefield[j].isRevealed) {
-        const temp = flatMinefield[i];
-        flatMinefield[i] = flatMinefield[j];
-        flatMinefield[j] = temp;
-    }
-}
-
-//Update the minefield with the reshaped value of flatMinefield:
-minefield.length = 0;
-k = 0;
-const tempArr = [];
-for (let i = 0; i < flatMinefield.length; i++) {
-    if (k === minefieldColumns) {
-        minefield.push(tempArr.slice());
-        tempArr.length = 0;
-        k = 0;
-    }
-    tempArr.push(flatMinefield[i]);
-    k++;
-}
-minefield.push(tempArr);
+populateMinefieldWithBombs();
 
 
 
@@ -96,4 +61,48 @@ function revealStartingPointNeighbors() {
             minefield[i + 1][j + 1].isRevealed = true;
         }
     }
+}
+
+function populateMinefieldWithBombs() {
+
+    const flatMinefield = minefield.flat();
+    let k = 0;
+    let ind = 0;
+    //Set the first remainingBombs cells of flatMinefield to be bombs:
+    while (k < remainingBombs) {
+        //Starting point and its neighbors should not be bombs!
+        if (!flatMinefield[ind].isRevealed) {
+            flatMinefield[ind].isBomb = true;
+            k++;
+        }
+        ind++;
+    }
+
+    //Shuffle the flatMinefield (Fisher-Yates method):
+    for (let i = flatMinefield.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        //Starting point and its neighbors should not be moved!
+        if (!flatMinefield[i].isRevealed && !flatMinefield[j].isRevealed) {
+            const temp = flatMinefield[i];
+            flatMinefield[i] = flatMinefield[j];
+            flatMinefield[j] = temp;
+        }
+    }
+
+    //Update the minefield with the reshaped value of flatMinefield:
+    minefield.length = 0;
+    k = 0;
+    const tempArr = [];
+    for (let i = 0; i < flatMinefield.length; i++) {
+        if (k === minefieldColumns) {
+            minefield.push(tempArr.slice());
+            tempArr.length = 0;
+            k = 0;
+        }
+        tempArr.push(flatMinefield[i]);
+        k++;
+    }
+    minefield.push(tempArr);
+
+
 }
