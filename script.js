@@ -13,6 +13,17 @@ const CSS_CLASSES = {
     CELL_ROW: "cell-row",
     CELL: "cell",
     REVEALED: "revealed",
+    NEAR_BOMB_COUNT_NUMBERS: {
+        0: "zero",
+        1: "one",
+        2: "two",
+        3: "three",
+        4: "four",
+        5: "five",
+        6: "six",
+        7: "seven",
+        8: "eight"
+    },
 };
 
 const minefieldDiv = document.querySelector(CSS_SELECTORS.MINEFIELD_GRID);
@@ -33,6 +44,15 @@ minefieldDiv.addEventListener("click", (e) => {
         revealStartingPointNeighbors();
         populateMinefieldWithBombs();
         e.target.classList.add(CSS_CLASSES.REVEALED);
+
+        const startingPointNeighbors = getCellNeighbors(startingPoint);
+        startingPointNeighbors.forEach((point => {
+            const neighborDiv = coordToCellDivElement(point);
+            neighborDiv.classList.add(CSS_CLASSES.REVEALED);
+            const nearBombs = calculateNearBombCount(point);
+            neighborDiv.innerText = nearBombs === 0 ? "" : nearBombs;
+            neighborDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+        }));
     }
 });
 
