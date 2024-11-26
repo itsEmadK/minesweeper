@@ -53,6 +53,23 @@ minefieldDiv.addEventListener("click", (e) => {
             neighborDiv.innerText = nearBombs === 0 ? "" : nearBombs;
             neighborDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
         }));
+    } else {
+        const i = cellDivElementToCoord(e.target).i;
+        const j = cellDivElementToCoord(e.target).j;
+        const shouldHandleClick = !minefield[i][j].isFlagged && !minefield[i][j].isRevealed;
+        if (shouldHandleClick) {
+            if (minefield[i][j].isBomb) {
+                
+            } else {
+                e.target.classList.add(CSS_CLASSES.REVEALED);
+                minefield[i][j].isRevealed = true;
+                const coord = cellDivElementToCoord(e.target);
+                const nearBombs = calculateNearBombCount(coord);
+                e.target.innerText = nearBombs === 0 ? "" : nearBombs;
+                e.target.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+            }
+        }
+
     }
 });
 
