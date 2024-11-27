@@ -82,21 +82,8 @@ minefieldDiv.addEventListener("click", (e) => {
             if (shouldHandleClick) {
                 if (minefield[i][j].isBomb) {
                     gameFinished = true;
-                    minefield.forEach(((row, i) => {
-                        row.forEach((cell, j) => {
-                            const div = coordToCellDivElement(new Point(i, j));
-                            if (cell.isBomb) {
-                                div.classList.add(CSS_CLASSES.REVEALED);
-                                const bombImg = document.createElement("img");
-                                bombImg.src = "./images/bomb.png";
-                                bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
-                                div.appendChild(bombImg);
-                            }
-                        });
-                    }));
-
+                    revealAllBombs();
                     clickedDiv.style.backgroundColor = "red";
-
                 } else {
                     clickedDiv.classList.add(CSS_CLASSES.REVEALED);
                     minefield[i][j].isRevealed = true;
@@ -292,4 +279,19 @@ function calculateNearBombCount(point) {
 
 function logMinefield(property) {
     console.table(minefield.map(row => row.map(cell => cell[property])));
+}
+
+function revealAllBombs() {
+    minefield.forEach(((row, i) => {
+        row.forEach((cell, j) => {
+            const div = coordToCellDivElement(new Point(i, j));
+            if (cell.isBomb) {
+                div.classList.add(CSS_CLASSES.REVEALED);
+                const bombImg = document.createElement("img");
+                bombImg.src = "./images/bomb.png";
+                bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
+                div.appendChild(bombImg);
+            }
+        });
+    }));
 }
