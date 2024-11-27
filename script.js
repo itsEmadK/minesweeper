@@ -3,6 +3,7 @@ let [minefieldRows, minefieldColumns] = [8, 12];
 let remainingBombs = 18;
 initEmptyMinefield();
 let startingPoint = null;
+let gameFinished = false;
 
 
 const CSS_SELECTORS = {
@@ -38,60 +39,63 @@ cellDiv.classList.add(CSS_CLASSES.CELL);
 populateMinefieldGridDiv();
 
 minefieldDiv.addEventListener("click", (e) => {
-    let clickedDiv = e.target;
-    if ([...clickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
-        clickedDiv = e.target.parentNode;
-    }
+    if (gameFinished) {
 
-    const i = cellDivElementToCoord(clickedDiv).i;
-    const j = cellDivElementToCoord(clickedDiv).j;
-    if (startingPoint === null) {
-        startingPoint = new Point(i, j);
-        minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
-        revealStartingPointNeighbors();
-        populateMinefieldWithBombs();
-        clickedDiv.classList.add(CSS_CLASSES.REVEALED);
-
-        const startingPointNeighbors = getCellNeighbors(startingPoint);
-        startingPointNeighbors.forEach((point => {
-            const neighborDiv = coordToCellDivElement(point);
-            neighborDiv.classList.add(CSS_CLASSES.REVEALED);
-            const nearBombs = calculateNearBombCount(point);
-            neighborDiv.innerText = nearBombs === 0 ? "" : nearBombs;
-            neighborDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
-        }));
     } else {
-        const i = cellDivElementToCoord(clickedDiv).i;
-        const j = cellDivElementToCoord(clickedDiv).j;
-        const shouldHandleClick = !minefield[i][j].isFlagged && !minefield[i][j].isRevealed;
-        if (shouldHandleClick) {
-            if (minefield[i][j].isBomb) {
-
-                minefield.forEach(((row, i) => {
-                    row.forEach((cell, j) => {
-                        const div = coordToCellDivElement(new Point(i, j));
-                        if (cell.isBomb) {
-                            div.classList.add(CSS_CLASSES.REVEALED);
-                            const bombImg = document.createElement("img");
-                            bombImg.src = "./images/bomb.png";
-                            bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
-                            div.appendChild(bombImg);
-                        }
-                    });
-                }));
-
-                clickedDiv.style.backgroundColor = "red";
-
-            } else {
-                clickedDiv.classList.add(CSS_CLASSES.REVEALED);
-                minefield[i][j].isRevealed = true;
-                const coord = cellDivElementToCoord(clickedDiv);
-                const nearBombs = calculateNearBombCount(coord);
-                clickedDiv.innerText = nearBombs === 0 ? "" : nearBombs;
-                clickedDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
-            }
+        let clickedDiv = e.target;
+        if ([...clickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
+            clickedDiv = e.target.parentNode;
         }
 
+        const i = cellDivElementToCoord(clickedDiv).i;
+        const j = cellDivElementToCoord(clickedDiv).j;
+        if (startingPoint === null) {
+            startingPoint = new Point(i, j);
+            minefield[startingPoint.i][startingPoint.j].isRevealed = true; //Reveal the starting point.
+            revealStartingPointNeighbors();
+            populateMinefieldWithBombs();
+            clickedDiv.classList.add(CSS_CLASSES.REVEALED);
+
+            const startingPointNeighbors = getCellNeighbors(startingPoint);
+            startingPointNeighbors.forEach((point => {
+                const neighborDiv = coordToCellDivElement(point);
+                neighborDiv.classList.add(CSS_CLASSES.REVEALED);
+                const nearBombs = calculateNearBombCount(point);
+                neighborDiv.innerText = nearBombs === 0 ? "" : nearBombs;
+                neighborDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+            }));
+        } else {
+            const i = cellDivElementToCoord(clickedDiv).i;
+            const j = cellDivElementToCoord(clickedDiv).j;
+            const shouldHandleClick = !minefield[i][j].isFlagged && !minefield[i][j].isRevealed;
+            if (shouldHandleClick) {
+                if (minefield[i][j].isBomb) {
+                    gameFinished = true;
+                    minefield.forEach(((row, i) => {
+                        row.forEach((cell, j) => {
+                            const div = coordToCellDivElement(new Point(i, j));
+                            if (cell.isBomb) {
+                                div.classList.add(CSS_CLASSES.REVEALED);
+                                const bombImg = document.createElement("img");
+                                bombImg.src = "./images/bomb.png";
+                                bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
+                                div.appendChild(bombImg);
+                            }
+                        });
+                    }));
+
+                    clickedDiv.style.backgroundColor = "red";
+
+                } else {
+                    clickedDiv.classList.add(CSS_CLASSES.REVEALED);
+                    minefield[i][j].isRevealed = true;
+                    const coord = cellDivElementToCoord(clickedDiv);
+                    const nearBombs = calculateNearBombCount(coord);
+                    clickedDiv.innerText = nearBombs === 0 ? "" : nearBombs;
+                    clickedDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+                }
+            }
+        }
     }
 });
 
