@@ -91,6 +91,28 @@ minefieldDiv.addEventListener("click", (e) => {
                     const nearBombs = calculateNearBombCount(coord);
                     clickedDiv.innerText = nearBombs === 0 ? "" : nearBombs;
                     clickedDiv.classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[`${nearBombs}`]);
+
+                    if (nearBombs === 0) {
+                        let neighbors = getCellNeighbors(new Point(i, j));
+                        while (neighbors.length > 0) {
+                            neighbors.forEach(((point, ind) => {
+                                if (calculateNearBombCount(point) === 0) {
+                                    minefield[point.i][point.j].isRevealed = true;
+                                    const neighborDiv = coordToCellDivElement(point);
+                                    neighborDiv.classList.add(CSS_CLASSES.REVEALED);
+                                    neighbors.concat(getCellNeighbors(point));
+                                    getCellNeighbors(point).forEach((p) => {
+                                        coordToCellDivElement(p).classList.add(CSS_CLASSES.REVEALED);
+                                        coordToCellDivElement(p).innerText =
+                                            calculateNearBombCount(p) === 0 ? "" : calculateNearBombCount(p);
+                                        coordToCellDivElement(p).classList.add(CSS_CLASSES.NEAR_BOMB_COUNT_NUMBERS[calculateNearBombCount(p)])
+
+                                    });
+                                }
+                                neighbors = neighbors.splice(ind, 1);
+                            }));
+                        }
+                    }
                 }
             }
         }
