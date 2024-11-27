@@ -115,6 +115,15 @@ minefieldDiv.addEventListener("contextmenu", (e) => {
             rightClickedDiv.innerHTML = "";
         }
         minefield[coord.i][coord.j].isFlagged = !minefield[coord.i][coord.j].isFlagged;
+        if (minefield[coord.i][coord.j].isFlagged && minefield[coord.i][coord.j].isBomb) {
+            remainingBombs--;
+        } else if (!minefield[coord.i][coord.j].isFlagged && minefield[coord.i][coord.j].isBomb) {
+            remainingBombs++;
+        }
+        if (remainingBombs === 0) {
+            gameFinished = true;
+            greenizeAllCorrectlyFlaggedCells();
+        }
     }
 });
 
@@ -292,6 +301,17 @@ function revealAllBombs() {
                 bombImg.src = "./images/bomb.png";
                 bombImg.classList.add(CSS_CLASSES.BOMB_IMG);
                 div.appendChild(bombImg);
+            }
+        });
+    }));
+}
+
+function greenizeAllCorrectlyFlaggedCells() {
+    minefield.forEach(((row, i) => {
+        row.forEach((cell, j) => {
+            if (cell.isFlagged && cell.isBomb) {
+                const div = coordToCellDivElement(new Point(i, j));
+                div.style.backgroundColor = "lightgreen";
             }
         });
     }));
