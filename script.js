@@ -286,6 +286,7 @@ function revealAllBombs() {
         row.forEach((cell, j) => {
             const div = coordToCellDivElement(new Point(i, j));
             if (cell.isBomb) {
+                div.innerHTML = "";
                 div.classList.add(CSS_CLASSES.REVEALED);
                 const bombImg = document.createElement("img");
                 bombImg.src = "./images/bomb.png";
