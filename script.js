@@ -117,7 +117,7 @@ minefieldDiv.addEventListener("contextmenu", (e) => {
             imgElement.src = "./images/flag.webp";
             imgElement.alt = "flag";
             imgElement.classList.add(CSS_CLASSES.FLAG_IMG);
-            e.target.appendChild(imgElement);
+            rightClickedDiv.appendChild(imgElement);
         } else {
             rightClickedDiv.innerHTML = "";
         }
