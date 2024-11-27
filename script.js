@@ -40,7 +40,12 @@ populateMinefieldGridDiv();
 
 minefieldDiv.addEventListener("click", (e) => {
     if (gameFinished) {
-
+        startingPoint = null;
+        minefield.length = 0;
+        initEmptyMinefield();
+        minefieldDiv.innerHTML = "";
+        populateMinefieldGridDiv();
+        gameFinished = false;
     } else {
         let clickedDiv = e.target;
         if ([...clickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
