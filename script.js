@@ -16,6 +16,7 @@ const CSS_CLASSES = {
     REVEALED: "revealed",
     FLAG_IMG: "flag-img",
     BOMB_IMG: "bomb-img",
+    MINEFIELD_GRID: "minefield-grid",
     NEAR_BOMB_COUNT_NUMBERS: {
         0: "zero",
         1: "one",
@@ -50,6 +51,11 @@ minefieldDiv.addEventListener("click", (e) => {
         let clickedDiv = e.target;
         if ([...clickedDiv.classList].includes(CSS_CLASSES.FLAG_IMG)) {
             clickedDiv = e.target.parentNode;
+        } else if (
+            [...clickedDiv.classList].includes(CSS_CLASSES.CELL_ROW) ||
+            [...clickedDiv.classList].includes(CSS_CLASSES.MINEFIELD_GRID)
+        ) {
+            return;
         }
 
         const i = cellDivElementToCoord(clickedDiv).i;
